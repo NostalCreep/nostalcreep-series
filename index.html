@@ -2,50 +2,109 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>New Original Minecraft Series</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NostalCreep Archives</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body {
-  background:#0b0b0b;
-  color:#e0e0e0;
-  font-family: Arial, sans-serif;
-}
-.container {
-  max-width: 800px;
-  margin: 40px auto;
-  background: #111;
+  background: #000;
+  color: #bfbfbf;
+  font-family: "Courier New", monospace;
+  margin: 0;
   padding: 20px;
+  text-shadow: 0 0 2px #0f0;
+}
+
+.container {
+  max-width: 600px;
+  margin: auto;
   border: 1px solid #222;
+  padding: 20px;
+  background: #020202;
 }
-button {
-  padding: 10px 16px;
-  font-size: 16px;
-  background: #1a1a1a;
-  color: #fff;
-  border: 1px solid #444;
-  cursor: pointer;
+
+h1 {
+  color: #9f9f9f;
+  font-size: 20px;
+  letter-spacing: 2px;
 }
-video {
-  width: 100%;
+
+.warning {
+  color: #7a0000;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.button {
+  display: inline-block;
   margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #555;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: #111;
+}
+
+#video {
   display: none;
+  margin-top: 20px;
+}
+
+.scanlines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.02),
+    rgba(255,255,255,0.02) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  z-index: 999;
 }
 </style>
+
+<script>
+function showVideo() {
+  document.getElementById("video").style.display = "block";
+}
+</script>
 </head>
+
 <body>
+<div class="scanlines"></div>
 
 <div class="container">
-  <h2>New Original Minecraft Series</h2>
-  <p>Autor: <strong>NostalCreep</strong></p>
+  <h1>NOSTALCREEP ARCHIVES</h1>
 
-  <h3>Episodio 1</h3>
-  <button onclick="document.getElementById('vid').style.display='block'">
-    ▶ Ver episodio
-  </button>
+  <p class="warning">
+    ARCHIVO NO OFICIAL<br>
+    FECHA DESCONOCIDA<br>
+    CONTENIDO DAÑADO
+  </p>
 
-  <video id="vid" controls>
-    <source src="episodio1.mp4" type="video/mp4">
-  </video>
+  <p>
+    Episodio recuperado.<br>
+    La reproducción puede causar errores visuales o auditivos.
+  </p>
+
+  <a href="#" class="button" onclick="showVideo()">▶ REPRODUCIR ARCHIVO</a>
+
+  <div id="video">
+    <video width="100%" controls>
+      <source src="episodio1.mp4" type="video/mp4">
+      Tu navegador no soporta este archivo.
+    </video>
+  </div>
+
+  <p style="font-size:11px; margin-top:20px;">
+    Autor: NostalCreep<br>
+    Sistema Archivado
+  </p>
 </div>
 
 </body>
