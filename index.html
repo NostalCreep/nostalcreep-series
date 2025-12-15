@@ -7,12 +7,12 @@
 
 <style>
 body {
-  background: #000;
+  background: black;
   color: #bfbfbf;
   font-family: "Courier New", monospace;
   margin: 0;
   padding: 20px;
-  text-shadow: 0 0 2px #0f0;
+  overflow-x: hidden;
 }
 
 .container {
@@ -21,10 +21,10 @@ body {
   border: 1px solid #222;
   padding: 20px;
   background: #020202;
+  position: relative;
 }
 
 h1 {
-  color: #9f9f9f;
   font-size: 20px;
   letter-spacing: 2px;
 }
@@ -32,20 +32,26 @@ h1 {
 .warning {
   color: #7a0000;
   font-size: 12px;
-  margin-bottom: 15px;
 }
 
 .button {
-  display: inline-block;
-  margin-top: 20px;
+  display: block;
+  margin-top: 15px;
   padding: 10px;
   border: 1px solid #555;
   color: #ccc;
   text-decoration: none;
+  width: fit-content;
 }
 
 .button:hover {
   background: #111;
+}
+
+.locked {
+  color: #444;
+  border-color: #333;
+  cursor: not-allowed;
 }
 
 #video {
@@ -53,57 +59,96 @@ h1 {
   margin-top: 20px;
 }
 
+/* Scanlines */
 .scanlines {
   position: fixed;
   inset: 0;
   pointer-events: none;
   background: repeating-linear-gradient(
     to bottom,
-    rgba(255,255,255,0.02),
-    rgba(255,255,255,0.02) 1px,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.03) 1px,
     transparent 1px,
     transparent 2px
   );
   z-index: 999;
 }
+
+/* VHS Noise */
+.noise {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  opacity: 0.05;
+  animation: noiseMove 0.2s infinite;
+  pointer-events: none;
+  z-index: 998;
+}
+
+@keyframes noiseMove {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(2px,-2px); }
+}
+
+/* Glitch */
+.glitch {
+  animation: glitch 1.5s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(1px, -2px); }
+  100% { transform: translate(0); }
+}
 </style>
 
 <script>
-function showVideo() {
+function playEpisode() {
   document.getElementById("video").style.display = "block";
 }
+
+window.onload = () => {
+  const audio = new Audio("static.mp3");
+  audio.volume = 0.4;
+  audio.play().catch(()=>{});
+};
 </script>
 </head>
 
 <body>
 <div class="scanlines"></div>
+<div class="noise"></div>
 
-<div class="container">
+<div class="container glitch">
   <h1>NOSTALCREEP ARCHIVES</h1>
 
   <p class="warning">
-    ARCHIVO NO OFICIAL<br>
-    FECHA DESCONOCIDA<br>
-    CONTENIDO DAÑADO
+    ADVERTENCIA<br>
+    ARCHIVO DAÑADO<br>
+    INTERFERENCIA DETECTADA
   </p>
 
   <p>
-    Episodio recuperado.<br>
-    La reproducción puede causar errores visuales o auditivos.
+    Registro recuperado.<br>
+    Algunos fragmentos no pueden ser reproducidos.
   </p>
 
-  <a href="#" class="button" onclick="showVideo()">▶ REPRODUCIR ARCHIVO</a>
+  <a href="#" class="button" onclick="playEpisode()">▶ EPISODIO 01</a>
+
+  <a class="button locked">✖ EPISODIO 02 (CORRUPTO)</a>
 
   <div id="video">
     <video width="100%" controls>
       <source src="episodio1.mp4" type="video/mp4">
-      Tu navegador no soporta este archivo.
     </video>
   </div>
 
   <p style="font-size:11px; margin-top:20px;">
     Autor: NostalCreep<br>
-    Sistema Archivado
+    Estado: INESTABLE
   </p>
 </div>
 
