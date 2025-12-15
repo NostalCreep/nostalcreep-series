@@ -106,8 +106,31 @@ h1 {
 </style>
 
 <script>
+const messages = [
+  "ARCHIVO IRRECUPERABLE",
+  "NO DEBISTE ENTRAR",
+  "EL ARCHIVO TE OBSERVA",
+  "SEÑAL PERDIDA",
+  "NO ES UN JUEGO",
+  "¿POR QUÉ SIGUES MIRANDO?",
+  "ERROR 19x9",
+  "ESTO NO DEBIÓ SER PUBLICADO"
+];
+
 function playEpisode() {
   document.getElementById("video").style.display = "block";
+}
+
+function corruptMessage() {
+  const msg = messages[Math.floor(Math.random() * messages.length)];
+  const el = document.getElementById("secret");
+  el.textContent = msg;
+  el.style.display = "block";
+  el.classList.add("glitch");
+
+  setTimeout(() => {
+    el.classList.remove("glitch");
+  }, 800);
 }
 
 window.onload = () => {
@@ -138,7 +161,9 @@ window.onload = () => {
 
   <a href="#" class="button" onclick="playEpisode()">▶ EPISODIO 01</a>
 
-  <a class="button locked">✖ EPISODIO 02 (CORRUPTO)</a>
+  <a href="#" class="button locked" onclick="corruptMessage()">✖ EPISODIO 02 (CORRUPTO)</a>
+
+  <p id="secret" style="display:none; color:#7a0000; font-size:12px; margin-top:10px;"></p>
 
   <div id="video">
     <video width="100%" controls>
