@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>New Original Minecraft Series</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  background:#0b0b0b;
+  color:#e0e0e0;
+  font-family: Arial, sans-serif;
+}
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #111;
+  padding: 20px;
+  border: 1px solid #222;
+}
+button {
+  padding: 10px 16px;
+  font-size: 16px;
+  background: #1a1a1a;
+  color: #fff;
+  border: 1px solid #444;
+  cursor: pointer;
+}
+video {
+  width: 100%;
+  margin-top: 20px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>New Original Minecraft Series</h2>
+  <p>Autor: <strong>NostalCreep</strong></p>
+
+  <h3>Episodio 1</h3>
+  <button onclick="document.getElementById('vid').style.display='block'">
+    ▶ Ver episodio
+  </button>
+
+  <video id="vid" controls>
+    <source src="episodio1.mp4" type="video/mp4">
+  </video>
+</div>
+
+</body>
+</html>
