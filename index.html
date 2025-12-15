@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
 <meta charset="UTF-8">
 <title>NostalCreep Archives</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style>
 body {
   background: black;
   color: #bfbfbf;
@@ -82,7 +79,7 @@ h1 {
   100% { transform: translate(0); }
 }
 
-/* Número secreto */
+/* Número secreto temporal */
 #secretNumber {
   position: fixed;
   bottom: 20px;
@@ -90,11 +87,50 @@ h1 {
   font-size: 22px;
   color: #7a0000;
   display: none;
+  z-index: 1000;
 }
-</style>
 
-<script>
+/* Card evento especial */
+#eventCard {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: black;
+  color: #7a0000;
+  font-family: "Courier New", monospace;
+  text-align: center;
+  padding-top: 20%;
+  z-index: 9999;
+}
+
+/* Acceso por código */
+#codeAccess {
+  display: none;
+  margin-top: 20px;
+}
+
+#codeAccess input {
+  background: black;
+  color: #ccc;
+  border: 1px solid #444;
+  padding: 6px;
+}
+
+#codeAccess button {
+  background: black;
+  color: #ccc;
+  border: 1px solid #555;
+  padding: 6px 10px;
+  margin-left: 5px;
+}
+</style><script>
+// ===== CONFIGURACIÓN =====
+const codeNumbers = [1, 5, 1, 3];
+const unlockCode = "1513";
+const specialDate = "2025-12-29"; // YYYY-MM-DD
+
 let clicks = 0;
+let eventShown = false;
 
 const messages = [
   "ARCHIVO IRRECUPERABLE",
@@ -105,13 +141,25 @@ const messages = [
   "NO EXISTE UN EPISODIO 02"
 ];
 
-const codeNumbers = [1, 5, 1, 3];
+function todayISO() {
+  return new Date().toISOString().split("T")[0];
+}
+
+function isSpecialDate() {
+  return todayISO() === specialDate;
+}
 
 function playEpisode() {
   document.getElementById("video").style.display = "block";
 }
 
 function corruptMessage() {
+  // Si es el día especial, no mostrar 404, mostrar acceso por código
+  if (isSpecialDate()) {
+    document.getElementById("codeAccess").style.display = "block";
+    return;
+  }
+
   clicks++;
 
   if (clicks < 7) {
@@ -130,65 +178,77 @@ function corruptMessage() {
   }
 }
 
+function checkCode() {
+  const code = document.getElementById("codeInput").value;
+  const err = document.getElementById("codeError");
+  if (code === unlockCode) {
+    document.getElementById("episode2").style.display = "block";
+    document.getElementById("codeAccess").style.display = "none";
+  } else {
+    err.textContent = "CÓDIGO INCORRECTO";
+  }
+}
+
 window.onload = () => {
-  // sonido estático
+  // Sonido estático (suave)
   const audio = new Audio("static.mp3");
-  audio.volume = 0.35;
-  audio.play().catch(()=>{});
+  audio.volume = 0.25;
+  audio.play().catch(() => {});
 
-  // número secreto temporal
+  // Número secreto por visita (3 segundos)
   const num = codeNumbers[Math.floor(Math.random() * codeNumbers.length)];
-  const el = document.getElementById("secretNumber");
-  el.textContent = num;
-  el.style.display = "block";
+  const sn = document.getElementById("secretNumber");
+  sn.textContent = num;
+  sn.style.display = "block";
+  setTimeout(() => sn.style.display = "none", 3000);
 
-  setTimeout(() => {
-    el.style.display = "none";
-  }, 3000);
+  // Evento especial 29/12/2025
+  if (isSpecialDate() && !eventShown) {
+    const card = document.getElementById("eventCard");
+    card.style.display = "block";
+    eventShown = true;
+
+    setTimeout(() => {
+      card.style.display = "none";
+      document.getElementById("codeAccess").style.display = "block";
+    }, 5000);
+  }
 };
-</script>
-</head>
-
-<body>
-<div class="scanlines"></div>
-
-<div id="content" class="container glitch">
-  <h1>NOSTALCREEP ARCHIVES</h1>
-
-  <p class="warning">
+</script></head><body>
+<div class="scanlines"></div><!-- Card evento especial --><div id="eventCard" class="glitch">
+  <h1>ERROR ERROR ERROR</h1>
+  <p>1 5 1 3 0 9 4 2 8</p>
+  <p>ARCHIVO CORRUPTO</p>
+  <p>29/12/2025</p>
+</div><div id="content" class="container glitch">
+  <h1>NOSTALCREEP ARCHIVES</h1>  <p class="warning">
     ARCHIVO DAÑADO<br>
     INTERFERENCIA DETECTADA
-  </p>
-
-  <p>
+  </p>  <p>
     Registro recuperado.<br>
     Algunos fragmentos no pueden ser reproducidos.
-  </p>
+  </p><a href="#" class="button" onclick="playEpisode()">▶ EPISODIO 01</a> <a href="#" class="button locked" onclick="corruptMessage()">✖ EPISODIO 02 (PERDIDO)</a>
 
-  <a href="#" class="button" onclick="playEpisode()">▶ EPISODIO 01</a>
-  <a href="#" class="button locked" onclick="corruptMessage()">✖ EPISODIO 02 (PERDIDO)</a>
-
-  <p id="secret" style="display:none; color:#7a0000; font-size:12px;"></p>
-
-  <div id="video">
+  <p id="secret" style="display:none; color:#7a0000; font-size:12px;"></p>  <div id="video">
     <video width="100%" controls>
       <source src="episodio1.mp4" type="video/mp4">
     </video>
-  </div>
-
-  <p style="font-size:11px; margin-top:20px;">
+  </div>  <!-- Acceso por código (solo día especial) -->  <div id="codeAccess">
+    <p>INGRESA EL CÓDIGO</p>
+    <input id="codeInput" type="text" maxlength="4">
+    <button onclick="checkCode()">VERIFICAR</button>
+    <p id="codeError" style="color:#7a0000;"></p>
+  </div>  <!-- Episodio 2 oculto -->  <div id="episode2" style="display:none; margin-top:20px;">
+    <video width="100%" controls>
+      <source src="episodio2.mp4" type="video/mp4">
+    </video>
+  </div>  <p style="font-size:11px; margin-top:20px;">
     Autor: NostalCreep<br>
     Estado: INESTABLE
   </p>
-</div>
-
-<div id="fake404" class="glitch" style="display:none; text-align:center; margin-top:60px;">
+</div><div id="fake404" class="glitch" style="display:none; text-align:center; margin-top:60px;">
   <h1>404</h1>
   <p>PÁGINA NO ENCONTRADA</p>
   <p style="font-size:12px;">EL ARCHIVO FUE MOVIDO O ELIMINADO</p>
-</div>
-
-<div id="secretNumber" class="glitch"></div>
-
-</body>
+</div><div id="secretNumber" class="glitch"></div></body>
 </html>
